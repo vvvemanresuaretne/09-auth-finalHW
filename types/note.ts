@@ -50,3 +50,6 @@ export interface NotesResponse {
   totalPages: number;
   tag: string;
 }
+export interface CheckSessionResponse {
+  message: string;
+}

@@ -9,6 +9,3 @@ export interface UserRequest {
   password: string;
 }
 
-export interface CheckSessionResponse {
-  message: string;
-}
