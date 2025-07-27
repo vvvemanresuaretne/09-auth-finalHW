@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/vladyslavvasylkovskyi/Downloads/homework-09next/nextHM_09/app/not-found.tsx"],"sourcesContent":["import type { Metadata } from \"next\";\n\nexport const metadata: Metadata = {\n  title: \"Сторінку не знайдено — NoteHub\",\n  description: \"Ця сторінка не існує. Можливо, ви ввели неправильну адресу.\",\n  openGraph: {\n    title: \"Сторінку не знайдено — NoteHub\",\n    description: \"Ця сторінка не існує. Можливо, ви ввели неправильну адресу.\",\n    url: \"https://your-site-url.com/not-found\",\n    images: [\n      {\n        url: \"https://ac.goit.global/fullstack/react/notehub-og-meta.jpg\",\n      },\n    ],\n  },\n};\n\nexport default function NotFoundPage() {\n  return <h1>Сторінку не знайдено</h1>;\n}\n"],"names":[],"mappings":";;;;;;AAEO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;IACb,WAAW;QACT,OAAO;QACP,aAAa;QACb,KAAK;QACL,QAAQ;YACN;gBACE,KAAK;YACP;SACD;IACH;AACF;AAEe,SAAS;IACtB,qBAAO,8OAAC;kBAAG;;;;;;AACb","debugId":null}}]
+}
