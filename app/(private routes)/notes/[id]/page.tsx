@@ -1,4 +1,6 @@
-import { fetchNoteById } from "@/lib/api/clientApi";
+// app/(private routes)/notes/[id]/page.tsx
+
+import { fetchNoteByIdServer } from "@/lib/api/serverApi"; 
 import type { Metadata } from "next";
 import type { Note } from "@/types/note";
 
@@ -7,8 +9,7 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  // Передаємо id без перетворення на number
-  const note: Note | null = await fetchNoteById(params.id);
+  const note: Note | null = await fetchNoteByIdServer(params.id);
 
   const title = note ? `${note.title} — NoteHub` : "Нотатка — NoteHub";
   const description =
@@ -28,4 +29,23 @@ export async function generateMetadata({
       ],
     },
   };
+}
+
+export default async function NotePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const note: Note | null = await fetchNoteByIdServer(params.id);
+
+  if (!note) {
+    return <div>Нотатку не знайдено</div>;
+  }
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">{note.title}</h1>
+      <p>{note.content}</p>
+    </div>
+  );
 }

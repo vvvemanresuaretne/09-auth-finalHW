@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import type { Note, NotesResponse } from "@/types/note";
 import type { User } from "@/types/user";
 
+
+
 const getCookieHeader = async () => {
   const cookieStore = cookies();
   return cookieStore.toString();
