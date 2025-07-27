@@ -2,7 +2,8 @@
 
 import { nextServer } from './api';
 import type { Note, NotesResponse, NewNote } from '@/types/note';
-import type { User, UserRequest, CheckSessionResponse } from '@/types/user';
+import type {  CheckSessionResponse } from '@/types/note';
+import type { User, UserRequest, } from '@/types/user';
 import { AxiosError } from 'axios';
 
 export const fetchNotes = async (
