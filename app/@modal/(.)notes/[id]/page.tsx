@@ -6,18 +6,18 @@ import {
 import PreviewClient from "./NotePreview.client";
 import { fetchNoteByIdServer } from "@/lib/api/serverApi"; // ✅ серверний запит з куками
 
-type PageProps = {
+interface Props {
   params: { id: string };
-};
+}
 
-const NoteDetailsModal = async ({ params }: PageProps) => {
+const NoteDetailsModal = async ({ params }: Props) => {
   const { id } = params;
 
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ["note", id],
-    queryFn: () => fetchNoteByIdServer(id),
+    queryFn: () => fetchNoteByIdServer(id), // ✅ серверний запит
   });
 
   return (
