@@ -3,14 +3,17 @@ import { cookies } from "next/headers";
 import type { Note, NotesResponse } from "@/types/note";
 import type { User } from "@/types/user";
 
-// Асинхронно формируем заголовок Cookie из объекта cookies()
+// Асинхронная функция, т.к. cookies() возвращает Promise
 const getCookieHeader = async (): Promise<string> => {
   const cookieStore = await cookies();
-  const cookieArray: string[] = [];
-  for (const [key, value] of cookieStore.entries()) {
-    cookieArray.push(`${key}=${value}`);
+  const cookiePairs: string[] = [];
+  const allCookies = cookieStore.getAll();
+
+  for (const cookie of allCookies) {
+    cookiePairs.push(`${cookie.name}=${cookie.value}`);
   }
-  return cookieArray.join("; ");
+
+  return cookiePairs.join("; ");
 };
 
 export const fetchNotesServer = async (

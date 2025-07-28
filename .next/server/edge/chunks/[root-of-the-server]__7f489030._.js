@@ -48,14 +48,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$request$2f$cookies$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/esm/server/request/cookies.js [middleware-edge] (ecmascript)");
 ;
 ;
-// Асинхронно формируем заголовок Cookie из объекта cookies()
+// Асинхронная функция, т.к. cookies() возвращает Promise
 const getCookieHeader = async ()=>{
     const cookieStore = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$request$2f$cookies$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["cookies"])();
-    const cookieArray = [];
-    for (const [key, value] of cookieStore.entries()){
-        cookieArray.push(`${key}=${value}`);
+    const cookiePairs = [];
+    const allCookies = cookieStore.getAll();
+    for (const cookie of allCookies){
+        cookiePairs.push(`${cookie.name}=${cookie.value}`);
     }
-    return cookieArray.join("; ");
+    return cookiePairs.join("; ");
 };
 const fetchNotesServer = async (searchText, page = 1, perPage = 10, tag)=>{
     const cookie = await getCookieHeader();
