@@ -26,7 +26,7 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/axios/lib/axios.js [middleware-edge] (ecmascript)");
 ;
-const baseURL = ("TURBOPACK compile-time value", "https://09-auth-final-hw-two.vercel.app") + "/api";
+const baseURL = ("TURBOPACK compile-time value", "https://09-auth-final-hw.vercel.app/") + "/api";
 const nextServer = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["default"].create({
     baseURL,
     withCredentials: true
@@ -48,54 +48,79 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$request$2f$cookies$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/esm/server/request/cookies.js [middleware-edge] (ecmascript)");
 ;
 ;
+// Асинхронно формируем заголовок Cookie из объекта cookies()
 const getCookieHeader = async ()=>{
-    const cookieStore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$request$2f$cookies$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["cookies"])();
-    return cookieStore.toString();
+    const cookieStore = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$request$2f$cookies$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["cookies"])();
+    const cookieArray = [];
+    for (const [key, value] of cookieStore.entries()){
+        cookieArray.push(`${key}=${value}`);
+    }
+    return cookieArray.join("; ");
 };
 const fetchNotesServer = async (searchText, page = 1, perPage = 10, tag)=>{
     const cookie = await getCookieHeader();
-    const res = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get("/notes", {
-        params: {
-            ...searchText && {
-                search: searchText
+    try {
+        const res = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get("/notes", {
+            params: {
+                ...searchText && {
+                    search: searchText
+                },
+                page,
+                perPage,
+                ...tag && tag !== "All" ? {
+                    tag
+                } : {}
             },
-            page,
-            perPage,
-            ...tag && tag !== "All" && {
-                tag
+            headers: {
+                Cookie: cookie
             }
-        },
-        headers: {
-            Cookie: cookie
-        }
-    });
-    return res.data;
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Error fetching notes:", error);
+        throw error;
+    }
 };
 const fetchNoteByIdServer = async (id)=>{
     const cookie = await getCookieHeader();
-    const res = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get(`/notes/${id}`, {
-        headers: {
-            Cookie: cookie
-        }
-    });
-    return res.data;
+    try {
+        const res = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get(`/notes/${id}`, {
+            headers: {
+                Cookie: cookie
+            }
+        });
+        return res.data;
+    } catch (error) {
+        console.error(`Error fetching note by id ${id}:`, error);
+        throw error;
+    }
 };
 const getUserFromServer = async ()=>{
     const cookie = await getCookieHeader();
-    const res = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get("/users/me", {
-        headers: {
-            Cookie: cookie
-        }
-    });
-    return res.data;
+    try {
+        const res = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get("/users/me", {
+            headers: {
+                Cookie: cookie
+            }
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        throw error;
+    }
 };
 const checkServerSession = async ()=>{
     const cookie = await getCookieHeader();
-    return await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get("/auth/session", {
-        headers: {
-            Cookie: cookie
-        }
-    });
+    try {
+        return await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2f$api$2e$ts__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["nextServer"].get("/auth/session", {
+            headers: {
+                Cookie: cookie
+            }
+        });
+    } catch (error) {
+        console.error("Error checking session:", error);
+        throw error;
+    }
 };
 }}),
 "[project]/middleware.ts [middleware-edge] (ecmascript)": ((__turbopack_context__) => {

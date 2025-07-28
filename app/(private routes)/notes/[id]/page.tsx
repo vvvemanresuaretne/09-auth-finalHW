@@ -1,4 +1,4 @@
-import { fetchNoteById } from "@/lib/api/clientApi";
+import { fetchNoteByIdServer } from "@/lib/api/serverApi"; // Функція для отримання нотатки за id
 import type { Metadata } from "next";
 import type { Note } from "@/types/note";
 
@@ -7,8 +7,8 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  // Передаємо id без перетворення на number
-  const note: Note | null = await fetchNoteById(params.id);
+  // Викликаємо серверний API для отримання ОДНІЄЇ нотатки (не fetchNotesServer)
+  const note: Note | null = await fetchNoteByIdServer(params.id);
 
   const title = note ? `${note.title} — NoteHub` : "Нотатка — NoteHub";
   const description =
